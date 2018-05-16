@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database version="0.16.36">
+    <!--(strength - difficulty) * speed / time = 产量（个/秒）-->
+    <!--time:基础采集时间,difficulty:采掘难度-->
+    <raw>
+        <item id="r1" name="铁矿石" time="2" difficulty="0.9"/>
+        <item id="r2" name="铜矿石" time="2" difficulty="0.9"/>
+    </raw>
+    <!--time:基础制造时间,output:制造一次的产出数量,factory:用哪个工厂制造-->
+    <production>
+        <item id="p1" name="铁板" time="3.5" output="1" factory="f2">
+            <pre id="r1" num="1"/>
+        </item>
+        <item id="p2" name="铜板" time="3.5" output="1" factory="f2">
+            <pre id="r2" num="1"/>
+        </item>
+        <item id="p3" name="齿轮" time="0.5" output="1" factory="f4">
+            <pre id="p1" num="2"/>
+        </item>
+        <item id="p4" name="红瓶" time="5" output="1" factory="f4">
+            <pre id="p2" num="1"/>
+            <pre id="p3" num="1"/>
+        </item>
+        <item id="p5" name="绿瓶" time="6" output="1" factory="f4">
+            <pre id="p6" num="1"/>
+            <pre id="p7" num="1"/>
+        </item>
+        <item id="p6" name="电力机械臂" time="0.5" output="1" factory="f4">
+            <pre id="p1" num="1"/>
+            <pre id="p3" num="1"/>
+            <pre id="p8" num="1"/>
+        </item>
+        <item id="p7" name="传送带" time="0.5" output="2" factory="f4">
+            <pre id="p1" num="1"/>
+            <pre id="p3" num="1"/>
+        </item>
+        <item id="p8" name="电路板" time="0.5" output="1" factory="f4">
+            <pre id="p1" num="1"/>
+            <pre id="p9" num="3"/>
+        </item>
+        <item id="p9" name="铜线" time="0.5" output="2" factory="f4">
+            <pre id="p2" num="1"/>
+        </item>
+    </production>
+    <!--output:基础产能,strength:采掘强度,speed:采掘速度-->
+    <miner>
+        <item id="m1" name="电力采掘机" output="1" strength="3" speed="0.5"/>
+    </miner>
+    <!--efficiency:合成速度,output:基础产能-->
+    <factory>
+        <item id="f1" name="石炉" efficiency="1" output="1"/>
+        <item id="f2" name="钢炉" efficiency="2" output="1"/>
+        <item id="f3" name="组装机I型" efficiency="0.5" output="1"/>
+        <item id="f4" name="组装机II型" efficiency="0.75" output="1"/>
+    </factory>
+</database>
