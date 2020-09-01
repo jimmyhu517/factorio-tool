@@ -8,10 +8,10 @@
     </raw>
     <!--time:基础制造时间,output:制造一次的产出数量,factory:用哪个工厂制造-->
     <production>
-        <item id="p1" name="铁板" time="3.5" output="1" factory="f2">
+        <item id="p1" name="铁板" time="3.2" output="1" factory="f2">
             <pre id="r1" num="1"/>
         </item>
-        <item id="p2" name="铜板" time="3.5" output="1" factory="f2">
+        <item id="p2" name="铜板" time="3.2" output="1" factory="f2">
             <pre id="r2" num="1"/>
         </item>
         <item id="p3" name="齿轮" time="0.5" output="1" factory="f4">

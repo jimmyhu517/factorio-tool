@@ -18,10 +18,10 @@ public class Main {
     private static final String MINER_ELEMENT_KEY = "miner";
     private static final String FACTORY_ELEMENT_KEY = "factory";
 
-    private static Map<String, Raw> rawMap = new HashMap<>();
-    private static Map<String, Production> productionMap = new HashMap<>();
-    private static Map<String, Miner> minerMap = new HashMap<>();
-    private static Map<String, Factory> factoryMap = new HashMap<>();
+    private static Map<String, Raw> rawMap = new HashMap<>(16);
+    private static Map<String, Production> productionMap = new HashMap<>(16);
+    private static Map<String, Miner> minerMap = new HashMap<>(4);
+    private static Map<String, Factory> factoryMap = new HashMap<>(8);
     /**
      * 需求的最终产物，单位为（个/分钟）
      */
@@ -31,8 +31,8 @@ public class Main {
 
     public static void main(String[] args) {
         readXML();
-        requirement.put("p4", 45);
-        requirement.put("p5", 45);
+        requirement.put("p4", 60);
+        requirement.put("p5", 60);
         calculate(requirement, new BigDecimal(1), 0);
         printFactoryResult();
     }
@@ -70,8 +70,9 @@ public class Main {
      * @throws Exception 产品信息中没有配置用于建造的工厂，会报错
      */
     private static ResultTree getProductInfo(String key, BigDecimal num, int level) throws Exception {
+        //计算过程数据四舍五入，保留10位小数
         int scale = 10;
-        int type = BigDecimal.ROUND_HALF_DOWN;
+        int type = BigDecimal.ROUND_HALF_UP;
         BigDecimal secPerMin = new BigDecimal(60);
         if(productionMap.containsKey(key)) {
             Production production = productionMap.get(key);
@@ -86,7 +87,9 @@ public class Main {
                 BigDecimal facOutput = factory.getOutput();
                 String facName = factory.getName();
                 String msgTemp = "-%s每分钟【%s】个【%s】，需要【%s】个【%s】";
+                //工厂数量 = 每分钟需求量 ÷ 60 × 基础制造时间 ÷ 产出数量 ÷ 工厂产能 ÷ 工厂效率
                 BigDecimal factoryNum = num.divide(secPerMin, scale, type).multiply(proTime).divide(proOutput, scale, type).divide(facOutput, scale, type).divide(facEfficiency, scale, type);
+                //最终计算结果向上取整
                 factoryNum = factoryNum.setScale(0, BigDecimal.ROUND_UP);
                 //输出需求信息
                 String msg = String.format(msgTemp, tabs(level), num, proName, factoryNum, facName);
